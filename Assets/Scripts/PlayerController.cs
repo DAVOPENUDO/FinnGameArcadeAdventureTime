@@ -1,25 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; // Importa este namespace
 
 public class PlayerController : MonoBehaviour
 {
     public float velocidad = 5f;
     public int vida = 3;
 
-    public float fuerzaSalto = 10f; 
-    public float fuerzaRebote = 6f; 
-    public float longitudRaycast = 0.1f; 
-    public LayerMask capaSuelo; 
+    public float fuerzaSalto = 10f;
+    public float fuerzaRebote = 6f;
+    public float longitudRaycast = 0.1f;
+    public LayerMask capaSuelo;
 
-    private bool enSuelo; 
+    private bool enSuelo;
     private bool recibiendoDanio;
     private bool atacando;
     public bool muerto;
 
-    private Rigidbody2D rb; 
+    private Rigidbody2D rb;
 
     public Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,13 +51,13 @@ public class PlayerController : MonoBehaviour
                 Atacando();
             }
         }
-        
+
         animator.SetBool("ensuelo", enSuelo);
         animator.SetBool("recibeDanio", recibiendoDanio);
         animator.SetBool("Atacando", atacando);
         animator.SetBool("muerto", muerto);
     }
-       
+
     public void Movimiento()
     {
         float velocidadX = Input.GetAxis("Horizontal") * Time.deltaTime * velocidad;
@@ -78,13 +80,14 @@ public class PlayerController : MonoBehaviour
     }
     public void RecibeDanio(Vector2 direccion, int cantDanio)
     {
-        if(!recibiendoDanio)
+        if (!recibiendoDanio)
         {
             recibiendoDanio = true;
             vida -= cantDanio;
-            if (vida<=0)
+            if (vida <= 0)
             {
                 muerto = true;
+                CargarMenuInicial(); // Llama al método para cargar el menú inicial
             }
             if (!muerto)
             {
@@ -92,6 +95,11 @@ public class PlayerController : MonoBehaviour
                 rb.AddForce(rebote * fuerzaRebote, ForceMode2D.Impulse);
             }
         }
+    }
+
+    public void CargarMenuInicial()
+    {
+        SceneManager.LoadScene("MenuInicial"); // Carga la escena llamada "MenuInicial"
     }
 
     public void DesactivaDanio()

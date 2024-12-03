@@ -5,7 +5,7 @@ public class EnemyGorgon : MonoBehaviour
 {
     public Transform player;
     public float detectionRadius = 10.0f;
-    public float speed = 11.0f;
+    public float speed = 12.0f;
     public float fuerzaRebote = 6f;
     public int vida = 3;
 
